@@ -1,0 +1,8 @@
+{
+  "name": "invoices-app-mba",
+  "version": "1.0.0",
+  "description": "Example Invoices App created during MBA",
+  "main": "index.js",
+  "author": "Thiago Martins",
+  "license": "MIT"
+}
