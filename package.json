@@ -5,7 +5,12 @@
   "main": "index.js",
   "author": "Thiago Martins",
   "license": "MIT",
+  "type": "module",
   "devDependencies": {
+    "@types/node": "^20.14.0",
     "typescript": "^5.4.5"
+  },
+  "engines": {
+    "node": "20.x"
   }
 }
