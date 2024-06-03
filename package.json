@@ -6,11 +6,15 @@
   "author": "Thiago Martins",
   "license": "MIT",
   "type": "module",
+  "scripts": {
+    "test": "node --import tsx --test ./test/**.test.ts"
+  },
   "devDependencies": {
     "@types/node": "^20.14.0",
+    "tsx": "^4.11.2",
     "typescript": "^5.4.5"
   },
   "engines": {
-    "node": "20.x"
+    "node": "22.x"
   }
 }
