@@ -16,5 +16,8 @@
   },
   "engines": {
     "node": "22.x"
+  },
+  "dependencies": {
+    "pg-promise": "^11.8.0"
   }
 }
