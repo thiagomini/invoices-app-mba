@@ -18,6 +18,7 @@
     "node": "22.x"
   },
   "dependencies": {
+    "date-fns": "^3.6.0",
     "pg-promise": "^11.8.0"
   }
 }
