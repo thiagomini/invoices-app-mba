@@ -1,5 +1,5 @@
 import pgPromise from "pg-promise"
-import { addMonths } from 'date-fns';
+import { addMonths, format } from 'date-fns';
 export class GenerateInvoices {
   async execute(input: Input): Promise<Output[]> {
     const connection = pgPromise()('postgres://postgres:postgres@localhost:5433/app');
@@ -9,7 +9,7 @@ export class GenerateInvoices {
       const payments = await connection.query('SELECT * FROM payment WHERE id_contract = $1', [contract.id_contract]);
       if (input.type === 'cash') {
         result.push(...payments.map(p => ({
-          date: p.date.toISOString().split('T')[0],
+          date: format(p.date, 'yyyy-MM-dd'),
           amount: parseFloat(p.amount)
         })))
       } else {
@@ -17,7 +17,7 @@ export class GenerateInvoices {
         while (period <= contract.periods) {
           const date = addMonths(contract.date, period++);
           const amount = parseFloat(contract.amount) / contract.periods;
-          result.push({ date: date.toISOString().split('T')[0], amount })
+          result.push({ date: format(date, 'yyyy-MM-dd'), amount })
         }
       }
     }
