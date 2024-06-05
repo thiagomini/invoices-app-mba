@@ -1,9 +1,9 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import { GenerateInvoices } from "../src/generate-invoices.js";
+import { GenerateInvoicesUseCase } from "../src/generate-invoices.use-case.js";
 
 test('generates invoices of type cash', async () => {
-  const generateInvoices = new GenerateInvoices();
+  const generateInvoices = new GenerateInvoicesUseCase();
   const input = {
     month: 1,
     year: 2022,
@@ -15,7 +15,7 @@ test('generates invoices of type cash', async () => {
 })
 
 test('generates invoices of type cash for the first month', async () => {
-  const generateInvoices = new GenerateInvoices();
+  const generateInvoices = new GenerateInvoicesUseCase();
   const input = {
     month: 1,
     year: 2022,
@@ -27,7 +27,7 @@ test('generates invoices of type cash for the first month', async () => {
 })
 
 test('generates invoices of type cash for the second month', async () => {
-  const generateInvoices = new GenerateInvoices();
+  const generateInvoices = new GenerateInvoicesUseCase();
   const input = {
     month: 2,
     year: 2022,
