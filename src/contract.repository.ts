@@ -1,5 +1,5 @@
-import { Contract } from "./contract.js";
+import { Contract } from './contract.js';
 
 export interface ContractRepository {
-  list(): Promise<Contract[]>
+  list(): Promise<Contract[]>;
 }
