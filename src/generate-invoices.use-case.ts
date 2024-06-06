@@ -1,10 +1,13 @@
 import pgPromise from "pg-promise"
 import { addMonths, format } from 'date-fns';
 import { ContractDatabaseRepository } from "./contract.database.repository.js";
+import { ContractRepository } from "./contract.repository.js";
 export class GenerateInvoicesUseCase {
+
+  constructor(private readonly repository: ContractRepository) {}
+
   async execute(input: Input): Promise<Output[]> {
-    const repository = new ContractDatabaseRepository();
-    const contracts = await repository.list();
+    const contracts = await this.repository.list();
     const result: Output[] = [];
     for (const contract of contracts) { 
       const payments = contract.payments;

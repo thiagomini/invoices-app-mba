@@ -1,9 +1,10 @@
 import assert from "node:assert/strict";
 import test from "node:test";
 import { GenerateInvoicesUseCase } from "../src/generate-invoices.use-case.js";
+import { ContractDatabaseRepository } from "../src/contract.database.repository.js";
 
 test('generates invoices of type cash', async () => {
-  const generateInvoices = new GenerateInvoicesUseCase();
+  const generateInvoices = makeSut();
   const input = {
     month: 1,
     year: 2022,
@@ -15,7 +16,7 @@ test('generates invoices of type cash', async () => {
 })
 
 test('generates invoices of type cash for the first month', async () => {
-  const generateInvoices = new GenerateInvoicesUseCase();
+  const generateInvoices = makeSut();
   const input = {
     month: 1,
     year: 2022,
@@ -27,7 +28,7 @@ test('generates invoices of type cash for the first month', async () => {
 })
 
 test('generates invoices of type cash for the second month', async () => {
-  const generateInvoices = new GenerateInvoicesUseCase();
+  const generateInvoices = makeSut();
   const input = {
     month: 2,
     year: 2022,
@@ -37,3 +38,7 @@ test('generates invoices of type cash for the second month', async () => {
   assert.deepEqual(output.at(0)?.date, '2021-01-01');
   assert.deepEqual(output.at(0)?.amount, 500);
 })
+
+function makeSut() {
+  return new GenerateInvoicesUseCase(new ContractDatabaseRepository());
+}
