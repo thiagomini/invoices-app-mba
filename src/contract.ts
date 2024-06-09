@@ -1,3 +1,5 @@
+import { addMonths, format } from 'date-fns';
+import { Invoice } from './invoice.js';
 import { Payment } from './payment.js';
 
 export class Contract {
@@ -19,5 +21,23 @@ export class Contract {
 
   public getPayments(): ReadonlyArray<Payment> {
     return this.payments;
+  }
+
+  public generateInvoices(type: string): Invoice[] {
+    const result: Invoice[] = [];
+    const payments = this.getPayments();
+    if (type === 'cash') {
+      result.push(
+        ...payments.map((p) => new Invoice(p.date, parseFloat(p.amount))),
+      );
+    } else {
+      let period = 0;
+      while (period <= this.periods) {
+        const date = addMonths(this.date, period++);
+        const amount = parseFloat(this.amount) / this.periods;
+        result.push(new Invoice(date, amount));
+      }
+    }
+    return result;
   }
 }

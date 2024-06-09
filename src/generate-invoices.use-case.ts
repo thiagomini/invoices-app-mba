@@ -9,22 +9,10 @@ export class GenerateInvoicesUseCase {
     const contracts = await this.repository.list();
     const result: Output[] = [];
     for (const contract of contracts) {
-      const payments = contract.getPayments();
-      if (input.type === 'cash') {
-        result.push(
-          ...payments.map((p) => ({
-            date: format(p.date, 'yyyy-MM-dd'),
-            amount: parseFloat(p.amount),
-          })),
-        );
-      } else {
-        let period = 0;
-        while (period <= contract.periods) {
-          const date = addMonths(contract.date, period++);
-          const amount = parseFloat(contract.amount) / contract.periods;
-          result.push({ date: format(date, 'yyyy-MM-dd'), amount });
-        }
-      }
+      const invoices = contract.generateInvoices(input.type);
+      invoices.forEach((invoice) => {
+        result.push(invoice.formatted());
+      });
     }
     return result;
   }
