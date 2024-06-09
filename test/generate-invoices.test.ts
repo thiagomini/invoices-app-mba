@@ -1,7 +1,18 @@
 import assert from 'node:assert/strict';
-import test from 'node:test';
+import test, { after, before } from 'node:test';
 import { GenerateInvoicesUseCase } from '../src/generate-invoices.use-case.js';
 import { ContractDatabaseRepository } from '../src/contract.database.repository.js';
+import pgPromise, { IDatabase } from 'pg-promise';
+
+let connection: IDatabase<{}>;
+
+before(() => {
+  connection = pgPromise()('postgres://postgres:postgres@localhost:5433/app');
+});
+
+after(async () => {
+  await connection.$pool.end();
+});
 
 test('generates invoices of type cash', async () => {
   const generateInvoices = makeSut();
@@ -40,5 +51,7 @@ test('generates invoices of type cash for the second month', async () => {
 });
 
 function makeSut() {
-  return new GenerateInvoicesUseCase(new ContractDatabaseRepository());
+  return new GenerateInvoicesUseCase(
+    new ContractDatabaseRepository(connection),
+  );
 }
