@@ -9,7 +9,7 @@ export class GenerateInvoicesUseCase {
     const contracts = await this.repository.list();
     const result: Output[] = [];
     for (const contract of contracts) {
-      const payments = contract.payments;
+      const payments = contract.getPayments();
       if (input.type === 'cash') {
         result.push(
           ...payments.map((p) => ({
