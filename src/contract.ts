@@ -1,6 +1,8 @@
 import { addMonths, format } from 'date-fns';
 import { Invoice } from './invoice.js';
 import { Payment } from './payment.js';
+import { InvoiceGenerationStrategy } from './invoice-generation.strategy.js';
+import { InvoiceGenerationStrategyFactory } from './invoice-generation-strategy.factory.js';
 
 export class Contract {
   private readonly payments: Payment[] = [];
@@ -24,20 +26,7 @@ export class Contract {
   }
 
   public generateInvoices(type: string): Invoice[] {
-    const result: Invoice[] = [];
-    const payments = this.getPayments();
-    if (type === 'cash') {
-      result.push(
-        ...payments.map((p) => new Invoice(p.date, parseFloat(p.amount))),
-      );
-    } else {
-      let period = 0;
-      while (period <= this.periods) {
-        const date = addMonths(this.date, period++);
-        const amount = parseFloat(this.amount) / this.periods;
-        result.push(new Invoice(date, amount));
-      }
-    }
-    return result;
+    const strategy = InvoiceGenerationStrategyFactory.create(type);
+    return strategy.generate(this);
   }
 }
