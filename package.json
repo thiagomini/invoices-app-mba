@@ -21,6 +21,7 @@
   },
   "dependencies": {
     "date-fns": "^3.6.0",
+    "fastify": "^4.27.0",
     "pactum": "^3.7.0",
     "pg-promise": "^11.8.0"
   }
