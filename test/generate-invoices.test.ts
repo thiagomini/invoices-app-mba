@@ -3,6 +3,8 @@ import test, { after, before } from 'node:test';
 import { GenerateInvoicesUseCase } from '../src/generate-invoices.use-case.js';
 import { ContractDatabaseRepository } from '../src/contract.database.repository.js';
 import pgPromise, { IDatabase } from 'pg-promise';
+import { Presenter } from '../src/presenter.js';
+import { Invoice } from '../src/invoice.js';
 
 let connection: IDatabase<{}>;
 
@@ -22,8 +24,10 @@ test('generates invoices of type cash', async () => {
     type: 'cash',
   } as const;
   const output = await generateInvoices.execute(input);
-  assert.deepEqual(output.at(0)?.date, '2021-01-01');
-  assert.deepEqual(output.at(0)?.amount, 6000);
+  assert.deepEqual(output.at(0), {
+    date: '2021-01-01',
+    amount: 6000,
+  });
 });
 
 test('generates invoices of type cash for the first month', async () => {
@@ -34,8 +38,10 @@ test('generates invoices of type cash for the first month', async () => {
     type: 'accrual',
   } as const;
   const output = await generateInvoices.execute(input);
-  assert.deepEqual(output.at(0)?.date, '2021-01-01');
-  assert.deepEqual(output.at(0)?.amount, 500);
+  assert.deepEqual(output.at(0), {
+    date: '2021-01-01',
+    amount: 500,
+  });
 });
 
 test('generates invoices of type cash for the second month', async () => {
@@ -46,8 +52,22 @@ test('generates invoices of type cash for the second month', async () => {
     type: 'accrual',
   } as const;
   const output = await generateInvoices.execute(input);
-  assert.deepEqual(output.at(0)?.date, '2021-01-01');
-  assert.deepEqual(output.at(0)?.amount, 500);
+  assert.deepEqual(output.at(0), {
+    date: '2021-01-01',
+    amount: 500,
+  });
+});
+
+test('generates invoices of type cash as csv', async () => {
+  const generateInvoices = makeSut();
+  const input = {
+    month: 1,
+    year: 2022,
+    type: 'cash',
+    format: 'csv',
+  } as const;
+  const output = await generateInvoices.execute(input);
+  assert.deepEqual(output, '2021-01-01,6000');
 });
 
 function makeSut() {
