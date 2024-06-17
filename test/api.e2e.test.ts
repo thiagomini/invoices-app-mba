@@ -19,4 +19,21 @@ describe('API', () => {
   test('Health Check', async () => {
     await spec().get('http://localhost:3000/health').expectStatus(200);
   });
+
+  test('Generates Invoices', async () => {
+    await spec()
+      .post('http://localhost:3000/invoices')
+      .withJson({
+        month: 1,
+        year: 2022,
+        type: 'cash',
+      })
+      .expectStatus(200)
+      .expectBody([
+        {
+          date: '2021-01-01',
+          amount: 6000,
+        },
+      ]);
+  });
 });
