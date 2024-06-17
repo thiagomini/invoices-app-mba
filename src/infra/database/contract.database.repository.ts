@@ -1,6 +1,6 @@
 import { IDatabase } from 'pg-promise';
-import { Contract } from './contract.js';
-import { ContractRepository } from './contract.repository.js';
+import { Contract } from '../../domain/contract.js';
+import { ContractRepository } from '../../application/contract.repository.js';
 
 export class ContractDatabaseRepository implements ContractRepository {
   constructor(private readonly connection: IDatabase<{}>) {}

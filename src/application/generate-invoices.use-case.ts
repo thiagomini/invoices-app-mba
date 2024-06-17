@@ -1,8 +1,6 @@
-import pgPromise from 'pg-promise';
-import { addMonths, format } from 'date-fns';
-import { ContractDatabaseRepository } from './contract.database.repository.js';
 import { ContractRepository } from './contract.repository.js';
 import { PresenterFactory } from './presenter.factory.js';
+
 export class GenerateInvoicesUseCase {
   constructor(private readonly repository: ContractRepository) {}
 

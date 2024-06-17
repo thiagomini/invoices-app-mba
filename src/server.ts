@@ -1,6 +1,6 @@
 import Fastify from 'fastify';
-import { GenerateInvoicesUseCase } from './generate-invoices.use-case.js';
-import { ContractDatabaseRepository } from './contract.database.repository.js';
+import { GenerateInvoicesUseCase } from './application/generate-invoices.use-case.js';
+import { ContractDatabaseRepository } from './infra/database/contract.database.repository.js';
 import pgPromise from 'pg-promise';
 
 const connection = pgPromise()(

@@ -1,10 +1,8 @@
 import assert from 'node:assert/strict';
 import test, { after, before } from 'node:test';
-import { GenerateInvoicesUseCase } from '../src/generate-invoices.use-case.js';
-import { ContractDatabaseRepository } from '../src/contract.database.repository.js';
 import pgPromise, { IDatabase } from 'pg-promise';
-import { Presenter } from '../src/presenter.js';
-import { Invoice } from '../src/invoice.js';
+import { ContractDatabaseRepository } from '../src/infra/database/contract.database.repository.js';
+import { GenerateInvoicesUseCase } from '../src/application/generate-invoices.use-case.js';
 
 let connection: IDatabase<{}>;
 
